@@ -1,8 +1,9 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         try (Scanner scanner = new Scanner(System.in)) {
+            Diary diary = new Diary();
             label:
             while (true) {
                 printMenu();
@@ -11,14 +12,16 @@ public class Main {
                     int menu = scanner.nextInt();
                     switch (menu) {
                         case 1:
-                            inputTask(scanner);
+                            inputTask(diary, scanner);
                             break;
                         case 2:
-                            // todo: обрабатываем пункт меню 2
+                            removeTask(diary, scanner);
                             break;
                         case 3:
-                            // todo: обрабатываем пункт меню 3
+                            getTaskByDay(diary, scanner);
                             break;
+                        case 4:
+                            diary.getTaskAllTaskFromDiary();
                         case 0:
                             break label;
                     }
@@ -30,8 +33,7 @@ public class Main {
         }
     }
 
-    private static void inputTask(Scanner scanner) throws Exception {
-        Diary diary = new Diary();
+    private static void inputTask(Diary diary, Scanner scanner) throws Exception {
         System.out.print("Введите название задачи: ");
         String taskName = scanner.next();
         System.out.print("Введите описание задачи: ");
@@ -49,11 +51,25 @@ public class Main {
         diary.addTask(new Task(taskName, taskDescription, date, typeOfTask, typeOfRepeat));
     }
 
+    public static void removeTask(Diary diary, Scanner scanner) {
+        System.out.print("Укажите уникальный номер задачи: ");
+        int key = scanner.nextInt();
+        diary.removeTask(key);
+    }
+
+    public static void getTaskByDay(Diary diary, Scanner scanner) {
+        System.out.print("Укажите день в формате дд.мм.гггг: ");
+        String dateString = scanner.next();
+        diary.getTaskByDayFromDiary(dateString);
+
+    }
+
     private static void printMenu() {
         System.out.println(
                 "1. Добавить задачу\n" +
                         "2. Удалить задачу\n" +
                         "3. Получить задачу на указанный день\n" +
+                        "4. Получить все задачи\n" +
                         "0. Выход"
 
         );

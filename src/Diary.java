@@ -1,8 +1,7 @@
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class Diary {
+public class Diary<T extends Task & Repeating> {
     private Map<Integer, Task> tasks = new HashMap<>();
 
     public void addTask(Task task) {
@@ -13,19 +12,31 @@ public class Diary {
         tasks.remove(key);
     }
 
-//    Установка следующих дат, когда установлено напоминание
-//    public LocalDateTime setTypeOfRepeat(int num) {
-//        switch (num) {
-//            case 1:
-//                return date.plusDays(1);
-//            case 2:
-//                return date.plusWeeks(1);
-//            case 3:
-//                return date.plusMonths(1);
-//            case 4:
-//                return date.plusYears(1);
-//            default:
-//                return this.date;
-//        }
-//    }
+    public void getTaskAllTaskFromDiary() {
+        for (Task value : tasks.values()) {
+            System.out.println(value);
+        }
+    }
+
+    public List<Task> getTaskByDayFromDiary(String dateString) {
+        int day = Integer.parseInt(dateString.substring(0, 2));
+        int month = Integer.parseInt(dateString.substring(3, 5));
+        int year = Integer.parseInt(dateString.substring(6, 10));
+        LocalDateTime date = LocalDateTime.of(year, month, day, 0, 0);
+
+        List<Task> taskByDay = new ArrayList<>();
+        for (Task value : tasks.values()) {
+            if (value.getDate().equals(date)) {
+                taskByDay.add(value);
+            }
+        }
+        return taskByDay;
+    }
+
+    @Override
+    public String toString() {
+        return "Diary{" +
+                "tasks=" + tasks +
+                '}';
+    }
 }

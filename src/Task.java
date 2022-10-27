@@ -1,11 +1,8 @@
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
-public class Task {
+public class Task implements Repeating {
     private static Integer countTask = 0;
 
     public enum TypeOfTask {
@@ -20,13 +17,16 @@ public class Task {
         public String getTypeOfTask() {
             return typeOfTask;
         }
+
     }
 
     private String taskHeader;
+
     private String taskDescription;
     private LocalDateTime date;
     private TypeOfTask typeOfTask;
     private int typeOfRepeat;
+    private LocalDateTime dateOfCreation;
     private Integer id = countTask;
     public Map<Integer, Task> tasks = new HashMap<>();
 
@@ -37,6 +37,7 @@ public class Task {
         setDate(date);
         setTypeOfTask(typeOfTask);
         this.typeOfRepeat = typeOfRepeat;
+        this.dateOfCreation = LocalDateTime.now();
         countTask++;
     }
 
@@ -89,6 +90,41 @@ public class Task {
         }
     }
 
+    public LocalDateTime getNexDateTask(int typeOfRepeat) {
+        switch (typeOfRepeat) {
+            case 1:
+                getDaily();
+            case 2:
+                getWeekly();
+            case 3:
+                getMonthly();
+            case 4:
+                getAnnually();
+        }
+        return this.dateOfCreation;
+    }
+
+    @Override
+    public LocalDateTime getDaily() {
+        return this.dateOfCreation.plusDays(1);
+    }
+
+    @Override
+    public LocalDateTime getWeekly() {
+        return this.dateOfCreation.plusWeeks(1);
+    }
+
+    @Override
+    public LocalDateTime getMonthly() {
+        return this.dateOfCreation.plusMonths(1);
+    }
+
+    @Override
+    public LocalDateTime getAnnually() {
+        return this.dateOfCreation.plusYears(1);
+    }
+
+
     public TypeOfTask getTypeOfTask() {
         return typeOfTask;
     }
@@ -97,5 +133,11 @@ public class Task {
         return id;
     }
 
-
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskHeader='" + taskHeader + '\'' +
+                ", taskDescription='" + taskDescription + '\'' +
+                '}';
+    }
 }
