@@ -1,14 +1,6 @@
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public interface Repeating {
 
-    //        Установка следующих дат, когда установлено напоминание
-
-    LocalDateTime getDaily();
-
-    LocalDateTime getWeekly();
-
-    LocalDateTime getMonthly();
-
-    LocalDateTime getAnnually();
+    LocalDate getNextDay(int typeOfRepeat);
 }

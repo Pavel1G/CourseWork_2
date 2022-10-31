@@ -1,4 +1,5 @@
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,23 +22,20 @@ public class Task implements Repeating {
     }
 
     private String taskHeader;
-
     private String taskDescription;
-    private LocalDateTime date;
+    private LocalDate date;
     private TypeOfTask typeOfTask;
     private int typeOfRepeat;
-    private LocalDateTime dateOfCreation;
+    private LocalDate dateOfCreation;
     private Integer id = countTask;
-    public Map<Integer, Task> tasks = new HashMap<>();
 
-    public Task(String taskHeader, String taskDescription, String date,
-                int typeOfTask, int typeOfRepeat) throws Exception {
+    public Task(String taskHeader, String taskDescription, String date, int typeOfTask, int typeOfRepeat) throws Exception {
         setTaskHeader(taskHeader);
         setTaskDescription(taskDescription);
         setDate(date);
         setTypeOfTask(typeOfTask);
         this.typeOfRepeat = typeOfRepeat;
-        this.dateOfCreation = LocalDateTime.now();
+        this.dateOfCreation = LocalDate.now();
         countTask++;
     }
 
@@ -66,18 +64,17 @@ public class Task implements Repeating {
         }
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
 
     public void setDate(String dateString) throws Exception {
         if (dateString == null) throw new Exception("Укажите описание дату создания задачи");
-        int day = Integer.parseInt(dateString.substring(0, 2));
-        int month = Integer.parseInt(dateString.substring(3, 5));
-        int year = Integer.parseInt(dateString.substring(6, 10));
-        //Решить костыль с часами и минутами.
-        this.date = LocalDateTime.of(year, month, day, 0, 0);
+
+        //        Распарсил строку с помощью DateTimeFormatter
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        this.date = LocalDate.parse(dateString, df);
     }
 
     public void setTypeOfTask(int num) throws Exception {
@@ -90,40 +87,26 @@ public class Task implements Repeating {
         }
     }
 
-    public LocalDateTime getNexDateTask(int typeOfRepeat) {
+    @Override
+    public LocalDate getNextDay(int typeOfRepeat) {
         switch (typeOfRepeat) {
             case 1:
-                getDaily();
+                return this.dateOfCreation.plusDays(1);
             case 2:
-                getWeekly();
+                return this.dateOfCreation.plusWeeks(1);
             case 3:
-                getMonthly();
+                return this.dateOfCreation.plusMonths(1);
             case 4:
-                getAnnually();
+                return this.dateOfCreation.plusYears(1);
+
+            default:
+                return this.dateOfCreation;
         }
-        return this.dateOfCreation;
     }
 
-    @Override
-    public LocalDateTime getDaily() {
-        return this.dateOfCreation.plusDays(1);
+    public int getTypeOfRepeat() {
+        return typeOfRepeat;
     }
-
-    @Override
-    public LocalDateTime getWeekly() {
-        return this.dateOfCreation.plusWeeks(1);
-    }
-
-    @Override
-    public LocalDateTime getMonthly() {
-        return this.dateOfCreation.plusMonths(1);
-    }
-
-    @Override
-    public LocalDateTime getAnnually() {
-        return this.dateOfCreation.plusYears(1);
-    }
-
 
     public TypeOfTask getTypeOfTask() {
         return typeOfTask;
@@ -135,9 +118,9 @@ public class Task implements Repeating {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "taskHeader='" + taskHeader + '\'' +
-                ", taskDescription='" + taskDescription + '\'' +
-                '}';
+        return "Task{" + "id=" + id + "taskHeader='" + taskHeader + '\'' + ", " +
+                "taskDescription='" + taskDescription + '\'' + '}';
     }
+
+
 }

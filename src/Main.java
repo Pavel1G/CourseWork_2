@@ -22,6 +22,12 @@ public class Main {
                             break;
                         case 4:
                             diary.getTaskAllTaskFromDiary();
+                            break;
+                        case 5:
+                            editTask(diary, scanner);
+                        case 6:
+                            diary.getDeletedTask();
+                            break;
                         case 0:
                             break label;
                     }
@@ -51,7 +57,7 @@ public class Main {
         diary.addTask(new Task(taskName, taskDescription, date, typeOfTask, typeOfRepeat));
     }
 
-    public static void removeTask(Diary diary, Scanner scanner) {
+    public static void removeTask(Diary diary, Scanner scanner) throws Exception {
         System.out.print("Укажите уникальный номер задачи: ");
         int key = scanner.nextInt();
         diary.removeTask(key);
@@ -61,7 +67,13 @@ public class Main {
         System.out.print("Укажите день в формате дд.мм.гггг: ");
         String dateString = scanner.next();
         diary.getTaskByDayFromDiary(dateString);
+    }
 
+    public static void editTask(Diary diary, Scanner scanner) throws Exception {
+        System.out.println("Список всех задач.");
+        diary.getTaskAllTaskFromDiary();
+        System.out.print("Введите ID задачи - ");
+        diary.editTask(scanner.nextInt());
     }
 
     private static void printMenu() {
@@ -70,6 +82,8 @@ public class Main {
                         "2. Удалить задачу\n" +
                         "3. Получить задачу на указанный день\n" +
                         "4. Получить все задачи\n" +
+                        "5. Редактировать заголовок и описание задачи\n" +
+                        "6. Получить список всех удаленных задач\n" +
                         "0. Выход"
 
         );
