@@ -23,21 +23,17 @@ public class Task {
     private String taskDescription;
     private LocalDate date;
     private TypeOfTask typeOfTask;
-    private int typeOfRepeat;
     private LocalDate dateOfCreation;
     private Integer id;
 
-    public Task(String taskHeader, String taskDescription, String date, int typeOfTask, int typeOfRepeat) throws Exception {
-        this.id = countTask;
+    public Task(String taskHeader, String taskDescription, String date, int typeOfTask) throws Exception {
+        this.id = countTask++;
         setTaskHeader(taskHeader);
         setTaskDescription(taskDescription);
         setDate(date);
         setTypeOfTask(typeOfTask);
-        this.typeOfRepeat = typeOfRepeat;
         this.dateOfCreation = LocalDate.now();
-        countTask++;
     }
-
 
     public String getTaskHeader() {
         return taskHeader;
@@ -69,11 +65,14 @@ public class Task {
 
 
     public void setDate(String dateString) throws Exception {
-        if (dateString == null) throw new Exception("Укажите описание дату создания задачи");
+        if (dateString != null) {
+            //        Распарсил строку с помощью DateTimeFormatter
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            this.date = LocalDate.parse(dateString, df);
+        } else {
+            this.date = LocalDate.now();
+        }
 
-        //        Распарсил строку с помощью DateTimeFormatter
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        this.date = LocalDate.parse(dateString, df);
     }
 
     public void setTypeOfTask(int num) throws Exception {
@@ -86,10 +85,6 @@ public class Task {
         }
     }
 
-
-    public int getTypeOfRepeat() {
-        return typeOfRepeat;
-    }
 
     public TypeOfTask getTypeOfTask() {
         return typeOfTask;

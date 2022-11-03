@@ -3,7 +3,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws Exception {
         try (Scanner scanner = new Scanner(System.in)) {
-            Diary diary = new Diary();
+            TaskList taskList = new TaskList();
             label:
             while (true) {
                 printMenu();
@@ -12,21 +12,21 @@ public class Main {
                     int menu = scanner.nextInt();
                     switch (menu) {
                         case 1:
-                            inputTask(diary, scanner);
+                            inputTask(taskList, scanner);
                             break;
                         case 2:
-                            removeTask(diary, scanner);
+                            removeTask(taskList, scanner);
                             break;
                         case 3:
-                            getTaskByDay(diary, scanner);
+                            getTaskByDay(taskList, scanner);
                             break;
                         case 4:
-                            diary.getTaskAllTaskFromDiary();
+                            taskList.getAllTaskFromTaskList();
                             break;
                         case 5:
-                            editTask(diary, scanner);
+                            editTask(taskList, scanner);
                         case 6:
-                            diary.getDeletedTask();
+                            taskList.getDeletedTask();
                             break;
                         case 0:
                             break label;
@@ -39,7 +39,7 @@ public class Main {
         }
     }
 
-    private static void inputTask(Diary diary, Scanner scanner) throws Exception {
+    private static void inputTask(TaskList taskList, Scanner scanner) throws Exception {
         System.out.print("Введите название задачи: ");
         String taskName = scanner.next();
         System.out.print("Введите описание задачи: ");
@@ -54,33 +54,44 @@ public class Main {
                 "4 - ежегодная: ");
         int typeOfRepeat = scanner.nextInt();
         System.out.println();
-        diary.addTask(new Task(taskName, taskDescription, date, typeOfTask, typeOfRepeat));
+        switch (typeOfRepeat) {
+            case 1:
+                taskList.addTask(new DailyTask(taskName, taskDescription, date, typeOfTask));
+            case 2:
+                taskList.addTask((new WeeklyTask(taskName, taskDescription, date, typeOfTask)));
+            case 3:
+                taskList.addTask((new MonthlyTask(taskName, taskDescription, date, typeOfTask)));
+            case 4:
+                taskList.addTask((new AnnualTask(taskName, taskDescription, date, typeOfTask)));
+            default:
+                taskList.addTask((new Task(taskName, taskDescription, date, typeOfTask)));
+        }
     }
 
-    public static void removeTask(Diary diary, Scanner scanner) throws Exception {
+    public static void removeTask(TaskList taskList, Scanner scanner) throws Exception {
         System.out.print("Укажите уникальный номер задачи: ");
         int key = scanner.nextInt();
-        diary.removeTask(key);
+        taskList.removeTask(key);
     }
 
-    public static void getTaskByDay(Diary diary, Scanner scanner) {
+    public static void getTaskByDay(TaskList taskList, Scanner scanner) {
         System.out.print("Укажите день в формате дд.мм.гггг: ");
         String dateString = scanner.next();
-        diary.getTaskByDayFromDiary(dateString);
+        taskList.getTaskByDayFromTaskList(dateString);
     }
 
-    public static void editTask(Diary diary, Scanner scanner) throws Exception {
+    public static void editTask(TaskList taskList, Scanner scanner) throws Exception {
         System.out.println("Список всех задач.");
-        diary.getTaskAllTaskFromDiary();
+        taskList.getAllTaskFromTaskList();
         System.out.print("Введите ID задачи - ");
-        diary.editTask(scanner.nextInt());
+        taskList.editTask(scanner.nextInt());
     }
 
     private static void printMenu() {
         System.out.println(
                 "1. Добавить задачу\n" +
                         "2. Удалить задачу\n" +
-                        "3. Получить задачу на указанный день\n" +
+                        "3. Получить задачи на указанный день\n" +
                         "4. Получить все задачи\n" +
                         "5. Редактировать заголовок и описание задачи\n" +
                         "6. Получить список всех удаленных задач\n" +
