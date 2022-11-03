@@ -11,6 +11,9 @@ public class Diary implements Repeating {
     }
 
     public void removeTask(int key) throws Exception {
+        if (!tasks.containsKey(key)) {
+            throw new Exception("Задача с ключом " + key + " не найдена.");
+        }
 //        Создал мап архив задач, редактирую заголовки задач в мапе diary.
         archiveTasks.put(tasks.get(key).getId(), tasks.get(key));
         tasks.get(key).setTaskHeader("(Удалена) " + tasks.get(key).getTaskHeader());
@@ -91,7 +94,7 @@ public class Diary implements Repeating {
         return "Diary{" + "tasks = " + tasks + '}';
     }
 
-//    Я знаю, что можно этот метод переопределить и положить его в качестве параметра циклов while в строках
+    //    Я знаю, что можно этот метод переопределить и положить его в качестве параметра циклов while в строках
 //    50, 57, 64, но мне по-прежнему все это кажется странным, и я никак не могу найти применение этому интерфейсу,
 //    поэтому пускай пока полежит.
     @Override
