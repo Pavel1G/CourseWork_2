@@ -2,7 +2,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class Diary<T extends Task & Repeating> {
+public class Diary implements Repeating {
     private Map<Integer, Task> tasks = new HashMap<>();
     private Map<Integer, Task> archiveTasks = new HashMap<>();
 
@@ -31,11 +31,13 @@ public class Diary<T extends Task & Repeating> {
     public void getTaskByDayFromDiary(String dateString) {
 //        Распарсил строку с помощью DateTimeFormatter
         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate deadlineDate = LocalDate.parse(dateString, df);
         List<Task> taskByDay = new ArrayList<>();
 
-//        Распарсил строку с помощью DateTimeFormatter
+
         for (Task value : tasks.values()) {
-            if (value.getDate().equals(LocalDate.parse(dateString, df)) || value.getTypeOfRepeat() == 1) {
+            LocalDate dateForEquals = value.getDate();
+            if (dateForEquals.equals(LocalDate.parse(dateString, df)) || value.getTypeOfRepeat() == 1) {
                 taskByDay.add(value);
             }
 
@@ -44,8 +46,27 @@ public class Diary<T extends Task & Repeating> {
 //            в Diary, сделать бесконечный цикл while с методом isBefore с параметром dataString.
 //            Правильно ли я размышляю или надо сделать по-другому?
             switch (value.getTypeOfRepeat()) {
+                case 1:
+                    while (dateForEquals.isBefore(deadlineDate)) {
+                        if (dateForEquals.equals(deadlineDate)) {
+                            taskByDay.add(value);
+                        }
+                        dateForEquals.plusWeeks(1);
+                    }
                 case 2:
-                    value.getNextDay(2);
+                    while (dateForEquals.isBefore(deadlineDate)) {
+                        if (dateForEquals.equals(deadlineDate)) {
+                            taskByDay.add(value);
+                        }
+                        dateForEquals.plusMonths(1);
+                    }
+                case 3:
+                    while (dateForEquals.isBefore(deadlineDate)) {
+                        if (dateForEquals.equals(deadlineDate)) {
+                            taskByDay.add(value);
+                        }
+                        dateForEquals.plusYears(1);
+                    }
             }
         }
         System.out.println(taskByDay);
@@ -64,8 +85,17 @@ public class Diary<T extends Task & Repeating> {
         tasks.get(key).setTaskDescription(scanner.nextLine());
     }
 
+
     @Override
     public String toString() {
         return "Diary{" + "tasks = " + tasks + '}';
+    }
+
+//    Я знаю, что можно этот метод переопределить и положить его в качестве параметра циклов while в строках
+//    50, 57, 64, но мне по-прежнему все это кажется странным, и я никак не могу найти применение этому интерфейсу,
+//    поэтому пускай пока полежит.
+    @Override
+    public boolean isAvailable(LocalDate localDate) {
+        return false;
     }
 }

@@ -1,9 +1,7 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
-public class Task implements Repeating {
+public class Task {
     private static Integer countTask = 0;
 
     public enum TypeOfTask {
@@ -27,9 +25,10 @@ public class Task implements Repeating {
     private TypeOfTask typeOfTask;
     private int typeOfRepeat;
     private LocalDate dateOfCreation;
-    private Integer id = countTask;
+    private Integer id;
 
     public Task(String taskHeader, String taskDescription, String date, int typeOfTask, int typeOfRepeat) throws Exception {
+        this.id = countTask;
         setTaskHeader(taskHeader);
         setTaskDescription(taskDescription);
         setDate(date);
@@ -87,22 +86,6 @@ public class Task implements Repeating {
         }
     }
 
-    @Override
-    public LocalDate getNextDay(int typeOfRepeat) {
-        switch (typeOfRepeat) {
-            case 1:
-                return this.dateOfCreation.plusDays(1);
-            case 2:
-                return this.dateOfCreation.plusWeeks(1);
-            case 3:
-                return this.dateOfCreation.plusMonths(1);
-            case 4:
-                return this.dateOfCreation.plusYears(1);
-
-            default:
-                return this.dateOfCreation;
-        }
-    }
 
     public int getTypeOfRepeat() {
         return typeOfRepeat;
