@@ -23,7 +23,6 @@ public class Task {
     private String taskDescription;
     private LocalDate date;
     private TypeOfTask typeOfTask;
-    private final LocalDate dateOfCreation;
     private final Integer id;
 
     public Task(String taskHeader, String taskDescription, String date, int typeOfTask) throws Exception {
@@ -32,7 +31,6 @@ public class Task {
         setTaskDescription(taskDescription);
         setDate(date);
         setTypeOfTask(typeOfTask);
-        this.dateOfCreation = LocalDate.now();
     }
 
     public String getTaskHeader() {
