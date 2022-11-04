@@ -16,7 +16,7 @@ public class WeeklyTask extends Task implements Repeating {
                 if (dateOfCreate.equals(localDate)) {
                     return true;
                 }
-                dateOfCreate.plusWeeks(1);
+                dateOfCreate = dateOfCreate.plusWeeks(1);
             }
             return false;
         }

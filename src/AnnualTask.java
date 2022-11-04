@@ -16,7 +16,7 @@ public class AnnualTask extends Task implements Repeating {
                 if (dateOfCreate.equals(localDate)) {
                     return true;
                 }
-                dateOfCreate.plusYears(1);
+                dateOfCreate = dateOfCreate.plusYears(1);
             }
             return false;
         }

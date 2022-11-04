@@ -23,8 +23,8 @@ public class Task {
     private String taskDescription;
     private LocalDate date;
     private TypeOfTask typeOfTask;
-    private LocalDate dateOfCreation;
-    private Integer id;
+    private final LocalDate dateOfCreation;
+    private final Integer id;
 
     public Task(String taskHeader, String taskDescription, String date, int typeOfTask) throws Exception {
         this.id = countTask++;

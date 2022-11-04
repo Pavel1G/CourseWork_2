@@ -15,7 +15,7 @@ public class MonthlyTask extends Task implements Repeating {
                 if (dateOfCreate.equals(localDate)) {
                     return true;
                 }
-                dateOfCreate.plusMonths(1);
+                dateOfCreate = dateOfCreate.plusMonths(1);
             }
             return false;
         }

@@ -35,7 +35,7 @@ public class TaskList<T extends Task & Repeating> {
 //        Распарсил строку с помощью DateTimeFormatter
         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate deadlineDate = LocalDate.parse(dateString, df);
-        List<Task> taskByDay = new ArrayList<>();
+        List<T> taskByDay = new ArrayList<>();
 
         for (T value : taskList.values()) {
             if (value.isAvailable(deadlineDate)) {
