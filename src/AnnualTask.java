@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 
-public class AnnualTask extends Task implements Repeating {
+public class AnnualTask extends Task {
 
     public AnnualTask(String taskHeader, String taskDescription, String date, int typeOfTask) throws Exception {
         super(taskHeader, taskDescription, date, typeOfTask);
@@ -12,7 +12,7 @@ public class AnnualTask extends Task implements Repeating {
         if (dateOfCreate.equals(localDate)) {
             return true;
         } else {
-            while (dateOfCreate.isBefore(localDate)) {
+            while (dateOfCreate.isBefore(localDate.plusDays(1))) {
                 if (dateOfCreate.equals(localDate)) {
                     return true;
                 }

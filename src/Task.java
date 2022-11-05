@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Task {
+public class Task implements Repeating {
     private static Integer countTask = 0;
 
     public enum TypeOfTask {
@@ -17,9 +17,11 @@ public class Task {
             return typeOfTask;
         }
 
+
     }
 
     private String taskHeader;
+
     private String taskDescription;
     private LocalDate date;
     private TypeOfTask typeOfTask;
@@ -93,9 +95,15 @@ public class Task {
     }
 
     @Override
+    public boolean isAvailable(LocalDate localDate) {
+        return false;
+    }
+
+    @Override
     public String toString() {
-        return "Task{" + "id=" + id + "taskHeader='" + taskHeader + '\'' + ", " +
-                "taskDescription='" + taskDescription + '\'' + '}';
+        return "Task {" + "ID = " + id + ", заголовок = " + taskHeader + '\'' + ", " +
+                "описание = '" + taskDescription + '\'' + ", дата создания = " + date + ", тип класса - " + getClass() +
+                '}';
     }
 
 
