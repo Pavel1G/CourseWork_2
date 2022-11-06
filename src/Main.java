@@ -3,7 +3,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws Exception {
         try (Scanner scanner = new Scanner(System.in)) {
-            TaskList taskList = new TaskList();
+            TaskMap taskMap = new TaskMap();
             label:
             while (true) {
                 printMenu();
@@ -12,22 +12,22 @@ public class Main {
                     int menu = scanner.nextInt();
                     switch (menu) {
                         case 1:
-                            taskList.addTask(scanner);
+                            taskMap.addTask(scanner);
                             break;
                         case 2:
-                            taskList.removeTask(scanner);
+                            taskMap.removeTask(scanner);
                             break;
                         case 3:
-                            taskList.getTaskByDay(scanner);
+                            taskMap.getTaskByDay(scanner);
                             break;
                         case 4:
-                            taskList.getAllTaskFromTaskList();
+                            taskMap.getAllTaskFromTaskList();
                             break;
                         case 5:
-                            taskList.editTask(scanner);
+                            taskMap.editTask(scanner);
                             break;
                         case 6:
-                            taskList.getDeletedTask();
+                            taskMap.getDeletedTask();
                             break;
                         case 0:
                             break label;

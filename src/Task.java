@@ -25,6 +25,8 @@ public class Task implements Repeating {
     private String taskDescription;
     private LocalDate date;
     private TypeOfTask typeOfTask;
+
+    private String labelDelete;
     private final Integer id;
 
     public Task(String taskHeader, String taskDescription, String date, int typeOfTask) throws Exception {
@@ -94,6 +96,10 @@ public class Task implements Repeating {
         return id;
     }
 
+    public void setLabelDelete() {
+        this.labelDelete = "(Удалена)";
+    }
+
     @Override
     public boolean isAvailable(LocalDate localDate) {
         return false;
@@ -101,7 +107,7 @@ public class Task implements Repeating {
 
     @Override
     public String toString() {
-        return "Task {" + "ID = " + id + ", заголовок = " + taskHeader + '\'' + ", " +
+        return "Task {" + "ID = " + id + ", заголовок = " + labelDelete + taskHeader + '\'' + ", " +
                 "описание = '" + taskDescription + '\'' + ", дата создания = " + date + ", тип класса - " + getClass() +
                 '}';
     }
